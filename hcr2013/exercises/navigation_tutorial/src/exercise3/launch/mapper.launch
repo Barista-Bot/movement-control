@@ -1,0 +1,11 @@
+<launch>
+    <node pkg="gmapping" type="slam_gmapping" name="gmapping" args="scan:=scan">
+        <rosparam>
+            xmin  : -30
+            ymin  : -30
+            xmax  :  30
+            ymax  :  30
+            delta : 0.05
+        </rosparam>
+    </node>
+</launch>

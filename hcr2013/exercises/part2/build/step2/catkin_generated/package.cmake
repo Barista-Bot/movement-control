@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "step2")
+set(step2_MAINTAINER "Miguel Sarabia <miguel.sarabia@imperial.ac.uk>")
+set(step2_DEPRECATED "")
+set(step2_VERSION "0.2.0")
+set(step2_BUILD_DEPENDS "roscpp" "tf")
+set(step2_RUN_DEPENDS "roscpp" "tf")
+set(step2_BUILDTOOL_DEPENDS "catkin")

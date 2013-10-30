@@ -1,0 +1,30 @@
+<!--
+  Starts tf_tutorial and openni_tracker.
+-->
+<launch>
+    <!--
+    OPENNI+NITE TRACKER NODE
+    ==========================================================================
+    -->
+    <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker"
+        required="true" output="screen"
+        />
+
+    <!--
+    TF TUTORIAL NODES
+    ==========================================================================
+    -->
+    <node pkg="step3" type="step3" name="step3" required="true" output="screen"
+        />
+    <node pkg="step3" type="flies_generator" name="flies_generator"
+        required="true" output="screen"
+        />
+
+    <!--
+    RVIZ NODE
+    ==========================================================================
+    -->
+    <node pkg="rviz" type="rviz" name="rviz" required="true" output="screen"/>
+
+
+</launch>

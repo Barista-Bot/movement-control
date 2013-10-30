@@ -1,0 +1,24 @@
+<launch>
+
+    <!-- Start p2os driver -->
+    <node pkg="p2os_driver" type="p2os_driver" name="p2os">
+        <rosparam>
+            port  : "/dev/ttyUSB0"
+            pulse : 1
+            use_sonar : true
+        </rosparam>
+    </node>
+    
+        <!-- Enable the Motors -->
+    <node pkg="rostopic" type="rostopic" name="motorEnabler" required="true" output="screen" args="pub /cmd_motor_state p2os_driver/MotorState 1"/>
+    
+
+    <!-- Start Joystick Node -->
+    <node pkg="exercise3" type="joystick_node.py" name="joy_node"/>
+    
+    <!-- Start Joystick converter -->
+   <node pkg="exercise3" type="joystick_to_cmd_vel.py" name="joy_to_cmd_vel"/>
+
+
+    
+</launch>

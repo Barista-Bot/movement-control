@@ -1,0 +1,38 @@
+<!--
+  Starts xtion_follower and P3-AT.
+-->
+<launch>
+    <!--
+    OPENNI+NITE TRACKER NODE
+    ==========================================================================
+    -->
+    <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker"
+        required="true" output="screen" />
+
+    <!--
+    XTION FOLLOWER NODES
+    ==========================================================================
+    -->
+    <node pkg="xtion_follower" type="xtion_follower" name="xtion_follower"
+        required="true" output="screen">
+                <remap from="cmd_vel" to="js_cmd_vel"/>
+        </node>
+    <node pkg="xtion_follower" type="tf_broadcaster"
+        name="tf_broadcaster" required="true" output="screen" />
+
+    <!-- Start p2os driver -->
+    <node pkg="p2os_driver" type="p2os_driver" name="p2os" required="true" output="screen">
+        <rosparam>
+            port  : "/dev/ttyUSB0"
+            pulse : 1
+            use_sonar : true
+        </rosparam>
+    </node>
+
+    <!-- Start Sonar to Pointcloud converter -->
+    <node pkg="xtion_follower" type="sonar_to_pointcloud.py" name="sonar_to_pointcloud"
+        required="true" output="screen"/>
+
+    <!-- Start Shared Control -->
+    <node pkg="xtion_follower" type="shared_control.py" name="shared_control" required="true"/>
+</launch>

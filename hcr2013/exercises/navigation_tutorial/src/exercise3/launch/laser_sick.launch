@@ -1,0 +1,15 @@
+<launch>  
+  <!-- Start sick -->
+ <node pkg="sicktoolbox_wrapper" type="sicklms" name="sick_laser">
+      <rosparam>
+             port  : "/dev/ttyUSB1"
+             baud : 38400
+        </rosparam>
+    </node>
+
+<!--start rviz-->
+
+<node pkg="rviz" type="rviz" name ="rviz"/>
+    
+
+</launch>

@@ -1,0 +1,17 @@
+<launch>
+
+    <!-- Start hokuyo -->
+     <node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo">
+        <rosparam>
+             port  : "/dev/ttyACM3"
+             frame_id : "/odom"
+             intensity : false
+        </rosparam>
+     </node>
+
+<!--start rviz-->
+
+<node pkg="rviz" type="rviz" name ="rviz"/>
+    
+    
+</launch>

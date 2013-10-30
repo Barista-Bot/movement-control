@@ -1,0 +1,8 @@
+prefix=/home/human/hcr2013/exercises/part2/devel
+
+Name: step1
+Description: Description of step1
+Version: 0.2.0
+Cflags: 
+Libs: -L/home/human/hcr2013/exercises/part2/devel/lib 
+Requires: 
