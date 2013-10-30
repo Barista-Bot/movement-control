@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "exercise1")
+set(exercise1_MAINTAINER "the0s <the0s@todo.todo>")
+set(exercise1_DEPRECATED "")
+set(exercise1_VERSION "0.0.0")
+set(exercise1_BUILD_DEPENDS "rospy" "std_msgs" "message_generation")
+set(exercise1_RUN_DEPENDS "rospy" "std_msgs" "message_runtime" "common" "geometry_msgs")
+set(exercise1_BUILDTOOL_DEPENDS "catkin")

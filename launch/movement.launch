@@ -1,0 +1,7 @@
+<launch>
+
+  <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" required="true" ouput="screen" />
+
+  
+
+</launch>

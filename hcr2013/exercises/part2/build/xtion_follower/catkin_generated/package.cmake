@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "xtion_follower")
+set(xtion_follower_MAINTAINER "Miguel Sarabia <miguel.sarabia@imperial.ac.uk>")
+set(xtion_follower_DEPRECATED "")
+set(xtion_follower_VERSION "0.2.0")
+set(xtion_follower_BUILD_DEPENDS "roscpp" "tf" "geometry_msgs")
+set(xtion_follower_RUN_DEPENDS "roscpp" "tf" "geometry_msgs" "p2os_driver" "rospy" "python-numpy" "python-scipy")
+set(xtion_follower_BUILDTOOL_DEPENDS "catkin")

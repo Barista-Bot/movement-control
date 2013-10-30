@@ -1,0 +1,7 @@
+<launch>
+
+    <!-- Start Stage -->
+    <node pkg="stage_ros" type="stageros" name="stage"  
+        args="$(find exercise8)/world/simple_map.world"/>
+
+</launch>

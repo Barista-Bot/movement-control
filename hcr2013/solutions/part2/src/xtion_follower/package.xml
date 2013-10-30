@@ -1,0 +1,28 @@
+<package>
+  <name>xtion_follower</name>
+  <version>0.2.0</version>
+  <description>
+     Activity for the Human Centred Robotics Tutorials.
+     P3-AT follows user using data from streamed from Xtion.
+  </description>
+
+  <maintainer email="miguel.sarabia@imperial.ac.uk">Miguel Sarabia</maintainer>
+  <license>BSD</license>
+
+  <author>Miguel Sarabia</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>p2os_driver</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>python-numpy</run_depend>
+  <run_depend>python-scipy</run_depend>
+
+</package>

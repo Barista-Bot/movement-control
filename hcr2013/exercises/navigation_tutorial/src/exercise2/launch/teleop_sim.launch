@@ -1,0 +1,13 @@
+<launch>
+
+    <!-- Start Stage -->
+    <node pkg="stage_ros" type="stageros" name="stage"  
+        args="$(find exercise2)/world/simple_map.world"/>
+
+
+    <!-- Start Joystick Node -->
+    <node pkg="exercise2" type="joystick_node.py" name="joy_node"/>
+    
+    <!-- Start Joystick converter -->
+   <node pkg="exercise2" type="joystick_to_cmd_vel.py" name="joy_to_cmd_vel"/>
+</launch>

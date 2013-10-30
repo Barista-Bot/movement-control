@@ -1,0 +1,4 @@
+bool move
+---
+bool done
+string response

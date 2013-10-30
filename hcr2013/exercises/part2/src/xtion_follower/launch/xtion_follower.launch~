@@ -1,0 +1,33 @@
+<!--
+  Starts xtion_follower and P3-AT.
+-->
+<launch>
+    <!--
+    OPENNI+NITE TRACKER NODE
+    ==========================================================================
+    -->
+    <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker"
+        required="true" output="screen" />
+
+    <!--
+    XTION FOLLOWER NODES
+    ==========================================================================
+    -->
+    <node pkg="xtion_follower" type="xtion_follower" name="xtion_follower"
+        required="true" output="screen">
+                <remap from="cmd_vel" to="js_cmd_vel"/>
+        </node>
+    <node pkg="xtion_follower" type="tf_broadcaster"
+        name="tf_broadcaster" required="true" output="screen" />
+
+    <!-- Start Stage -->
+    <node pkg="stage_ros" type="stageros" name="stage"  
+        args="$(find xtion_follower)/world/simple_map.world"/>
+
+    <!-- Start Sonar to Pointcloud converter -->
+    <node pkg="xtion_follower" type="sonar_to_pointcloud.py" name="sonar_to_pointcloud"
+        required="true" output="screen"/>
+
+    <!-- Start Shared Control -->
+    <node pkg="xtion_follower" type="shared_control.py" name="shared_control" required="true"/>
+</launch>

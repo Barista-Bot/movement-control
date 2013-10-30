@@ -1,0 +1,7 @@
+<launch>
+    <!-- Start Joystick Node -->
+    <node pkg="exercise1" type="joystick_node.py" name="joy_node"/>
+    
+    <!-- Start Joystick converter -->
+   <node pkg="exercise1" type="joystick_to_cmd_vel.py" name="joy_to_cmd_vel"/>
+</launch>

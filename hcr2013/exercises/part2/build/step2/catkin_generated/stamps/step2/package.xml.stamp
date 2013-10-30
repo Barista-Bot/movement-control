@@ -1,0 +1,20 @@
+<package>
+  <name>step2</name>
+  <version>0.2.0</version>
+  <description>
+    Step 2 of tutorial about ROS transforms.
+  </description>
+  <maintainer email="miguel.sarabia@imperial.ac.uk">Miguel Sarabia</maintainer>
+  <license>BSD</license>
+
+  <author>Miguel Sarabia</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>tf</run_depend>
+
+</package>
