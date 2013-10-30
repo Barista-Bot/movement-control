@@ -7,13 +7,16 @@ from tf import TransformListener
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist, PointStamped
 
-def moveIt():
+def main():
   frequency = 20
   timeToUser = 6
   minDistance = 0.4
   minAngle = 0.09
   maxLinearSpeed = 0.3
   maxAngularSpeed = 0.52
+
+  rospy.init_node('movement')
+  rospy.Service('movement', movement, moveIt)
 
   listener = tf.TransformListener()
 
@@ -49,7 +52,6 @@ def moveIt():
 
       angle = atan2(output.point.y, output.point.x)
 
-      #code from tutorials, don't touch that or everything dies
       if (abs(angle) > minAngle):
         angularSpeed = abs(angle*frequency / timeToUser);
 
@@ -68,13 +70,8 @@ def moveIt():
     msg.linear.x = linearSpeed
     msg.angular.z = angularSpeed
 
-  return movementResponse(okay, 'DONE MAYBE BUT NO PROMISES')
-
-def movement_server():
-  rospy.init_node('movement')
-  rospy.Service('movement', movement, moveIt)
-
-  rospy.spin()
+    rospy.spin()
+    rate.sleep()
 
 if __name__ == '__main__':
-  movement_server()
+  main()
