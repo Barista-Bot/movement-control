@@ -4,6 +4,7 @@ from movement.srv import *
 from voice_control.srv import *
 
 import rospy
+import time
 from math import sqrt, pow, atan2
 import tf2_ros
 from std_msgs.msg import String
@@ -25,6 +26,7 @@ def pretendMoveIt(i):
       if outOfCoffee:
         print 'OH GOD'
         break
+    time.sleep(5)
 
   return movementResponse(1, 'DONE')
 
