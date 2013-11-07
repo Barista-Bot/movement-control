@@ -1,11 +1,25 @@
 #!/usr/bin/env python
 
 from movement.srv import *
+from voice_control.srv import *
 import rospy
 from math import sqrt, pow, atan2
 import tf2_ros
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist, PointStamped
+
+
+def pretendMoveIt(i):
+  print 'Moved around a bit, calling voice control'
+  rospy.wait_for_service('voice_control')
+  voice_control_s = rospy.ServiceProxy('voice_control', voice_control)
+  try:
+    success = voice_control_server()
+    print success
+  except:
+    print 'Could not contact voice control'
+
+  return movementResponse(1, 'DONE')
 
 def moveIt(i):
   frequency = 20
@@ -74,7 +88,7 @@ def moveIt(i):
 
 def movement_server():
   rospy.init_node('movement')
-  rospy.Service('movement', movement, moveIt)
+  rospy.Service('movement', movement, pretendMoveIt)
 
   rospy.spin()
 
