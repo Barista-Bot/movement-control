@@ -2,22 +2,29 @@
 
 from movement.srv import *
 from voice_control.srv import *
+
 import rospy
 from math import sqrt, pow, atan2
 import tf2_ros
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist, PointStamped
 
+outOfCoffee = False
 
 def pretendMoveIt(i):
-  print 'Moved around a bit, calling voice control'
-  rospy.wait_for_service('voice_control')
-  voice_control_s = rospy.ServiceProxy('voice_control', voice_control)
-  try:
-    success = voice_control_server()
-    print success
-  except:
-    print 'Could not contact voice control'
+  while True:
+    print 'Moved around, found someone, calling voice control'
+    rospy.wait_for_service('voice_control')
+    voice_control_s = rospy.ServiceProxy('voice_control', voice_control)
+    try:
+      success = voice_control_s()
+      print success
+    except:
+      print 'Could not contact voice control'
+    finally:
+      if outOfCoffee:
+        print 'OH GOD'
+        break
 
   return movementResponse(1, 'DONE')
 
