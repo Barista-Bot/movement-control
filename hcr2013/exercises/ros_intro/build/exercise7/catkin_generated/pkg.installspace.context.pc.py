@@ -1,8 +1,0 @@
-# generated from catkin/cmake/template/pkg.context.pc.in
-CATKIN_PACKAGE_PREFIX = ""
-PROJECT_PKG_CONFIG_INCLUDE_DIRS = "/home/human/hcr2013/exercises/ros_intro/install/include".split(';') if "/home/human/hcr2013/exercises/ros_intro/install/include" != "" else []
-PROJECT_CATKIN_DEPENDS = "message_runtime;std_msgs".replace(';', ' ')
-PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
-PROJECT_NAME = "exercise7"
-PROJECT_SPACE_DIR = "/home/human/hcr2013/exercises/ros_intro/install"
-PROJECT_VERSION = "0.0.0"

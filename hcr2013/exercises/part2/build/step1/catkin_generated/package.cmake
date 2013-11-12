@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "step1")
-set(step1_MAINTAINER "Miguel Sarabia <miguel.sarabia@imperial.ac.uk>")
-set(step1_DEPRECATED "")
-set(step1_VERSION "0.2.0")
-set(step1_BUILD_DEPENDS "roscpp" "tf" "bullet")
-set(step1_RUN_DEPENDS "roscpp" "tf" "bullet")
-set(step1_BUILDTOOL_DEPENDS "catkin")

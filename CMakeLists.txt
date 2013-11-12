@@ -9,6 +9,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  tf
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,16 +105,22 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-# add_executable(movement_node src/movement_node.cpp)
+add_executable(movement src/Main.cpp)
+add_dependencies(movement  ${catkin_EXPORTED_TARGETS})
+target_link_libraries(movement ${catkin_LIBRARIES})
+
+add_executable(transform src/transform.cpp)
+add_dependencies( transform ${catkin_EXPORTED_TARGETS})
+target_link_libraries( transform  ${catkin_LIBRARIES})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(movement_node movement_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(movement_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(movement
+   ${catkin_LIBRARIES}
+ )
 
 #############
 ## Install ##

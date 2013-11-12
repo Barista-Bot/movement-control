@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "step3")
-set(step3_MAINTAINER "Miguel Sarabia <miguel.sarabia@imperial.ac.uk>")
-set(step3_DEPRECATED "")
-set(step3_VERSION "0.2.0")
-set(step3_BUILD_DEPENDS "roscpp" "tf")
-set(step3_RUN_DEPENDS "roscpp" "tf")
-set(step3_BUILDTOOL_DEPENDS "catkin")

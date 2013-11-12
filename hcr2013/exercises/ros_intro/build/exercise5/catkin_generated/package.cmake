@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "exercise5")
-set(exercise5_MAINTAINER "the0s <the0s@todo.todo>")
-set(exercise5_DEPRECATED "")
-set(exercise5_VERSION "0.0.0")
-set(exercise5_BUILD_DEPENDS "roscpp" "rospy" "std_msgs" "p2os_teleop" "joy" "message_generation")
-set(exercise5_RUN_DEPENDS "roscpp" "rospy" "std_msgs" "p2os_teleop" "joy" "message_runtime" "common")
-set(exercise5_BUILDTOOL_DEPENDS "catkin")

@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "common")
-set(common_MAINTAINER "the0s <the0s@todo.todo>")
-set(common_DEPRECATED "")
-set(common_VERSION "0.0.0")
-set(common_BUILD_DEPENDS "python-pygame")
-set(common_RUN_DEPENDS "python-pygame")
-set(common_BUILDTOOL_DEPENDS "catkin")

@@ -1,8 +1,0 @@
-prefix=/home/human/hcr2013/exercises/ros_intro/install
-
-Name: exercise5
-Description: Description of exercise5
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/human/hcr2013/exercises/ros_intro/install/lib 
-Requires: message_runtime std_msgs

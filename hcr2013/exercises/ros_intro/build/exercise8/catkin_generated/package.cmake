@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "exercise8")
-set(exercise8_MAINTAINER "the0s <the0s@todo.todo>")
-set(exercise8_DEPRECATED "")
-set(exercise8_VERSION "0.0.0")
-set(exercise8_BUILD_DEPENDS "rospy" "std_msgs" "message_generation")
-set(exercise8_RUN_DEPENDS "rospy" "std_msgs" "message_runtime" "common" "geometry_msgs")
-set(exercise8_BUILDTOOL_DEPENDS "catkin")

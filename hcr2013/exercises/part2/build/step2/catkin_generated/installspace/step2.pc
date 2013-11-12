@@ -1,8 +1,0 @@
-prefix=/home/human/hcr2013/exercises/part2/install
-
-Name: step2
-Description: Description of step2
-Version: 0.2.0
-Cflags: 
-Libs: -L/home/human/hcr2013/exercises/part2/install/lib 
-Requires: 

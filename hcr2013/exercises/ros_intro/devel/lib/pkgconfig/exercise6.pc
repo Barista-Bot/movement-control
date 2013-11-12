@@ -1,8 +1,0 @@
-prefix=/home/human/hcr2013/exercises/ros_intro/devel
-
-Name: exercise6
-Description: Description of exercise6
-Version: 0.0.0
-Cflags: -I/home/human/hcr2013/exercises/ros_intro/devel/include
-Libs: -L/home/human/hcr2013/exercises/ros_intro/devel/lib 
-Requires: message_runtime std_msgs
