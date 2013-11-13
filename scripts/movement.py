@@ -10,6 +10,35 @@ import sys, traceback
 
 from voice_control.srv import *
 
+def publish(linearSpeed, angularSpeed):
+  msg = Twist()
+
+  msg.linear.x = linearSpeed
+  msg.angular.z = angularSpeed
+
+  pub.publish(msg)
+
+  print 'Linear Speed ' + str(linearSpeed)
+  print 'Angular Speed ' + str(angularSpeed)
+  print '------------------------'
+
+  return 0
+
+def computeSpeed(distance, angle):
+  #code from tutorials, don't touch that or everything dies
+  if (abs(angle) > minAngle):
+    angularSpeed = abs(angle*frequency / timeToUser);
+    angularSpeed = min(angularSpeed, maxAngularSpeed)
+
+  if (angle < 0):
+    angularSpeed = -angularSpeed
+
+  if (distance > minDistance):
+    linearSpeed = distance * frequency / timeToUser
+    linearSpeed = min(linearSpeed, maxLinearSpeed)
+
+  return linearSpeed, angularSpeed
+
 def pretendMoveIt():
   print 'wow so lie'
   print 'such pretend'
@@ -61,33 +90,15 @@ def moveIt():
     tOutput = listener.transformPoint(destFrame, tInput)
 
     distance = sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2))
-
     angle = atan2(tOutput.point.y, tOutput.point.x)
 
-    #code from tutorials, don't touch that or everything dies
-    if (abs(angle) > minAngle):
-      angularSpeed = abs(angle*frequency / timeToUser);
-      angularSpeed = min(angularSpeed, maxAngularSpeed)
-
-    if (angle < 0):
-      angularSpeed = -angularSpeed
-
-    if (distance > minDistance):
-      linearSpeed = distance * frequency / timeToUser
-      linearSpeed = min(linearSpeed, maxLinearSpeed)
-
-    msg = Twist()
-
-    msg.linear.x = linearSpeed
-    msg.angular.z = angularSpeed
-
-    pub.publish(msg)
+    linearSpeed, angularSpeed = computeSpeed(distance, angle)  
 
     print 'Distance: ' + str(distance)
     print 'Angle: ' + str(angle)
-    print 'Linear Speed ' + str(linearSpeed)
-    print 'Angular Speed ' + str(angularSpeed)
     print '------------------------'
+    
+    publish(linearSpeed, angularSpeed)
 
     if linearSpeed == 0 and angularSpeed == 0:
       #if we're not moving anymore, call voice-control service
