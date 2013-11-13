@@ -11,6 +11,8 @@ import sys, traceback
 from voice_control.srv import *
 
 def publish(linearSpeed, angularSpeed):
+
+  pub = rospy.Publisher('cmd_vel', Twist)
   msg = Twist()
 
   msg.linear.x = linearSpeed
@@ -43,6 +45,40 @@ def pretendMoveIt():
   print 'wow so lie'
   print 'such pretend'
 
+  frequency = 20
+  timeToUser = 6
+  minDistance = 0.4
+  minAngle = 0.09
+  maxLinearSpeed = 0.3
+  maxAngularSpeed = 0.52
+  
+  rate = rospy.Rate(frequency)
+
+  while not rospy.is_shutdown():
+    distance = 2
+    angle = 0
+
+    linearSpeed, angularSpeed = computeSpeed(distance, angle)
+
+    print 'Distance: ' + str(distance)
+    print 'Angle: ' + str(angle)
+    print '------------------------'
+    
+    publish(linearSpeed, angularSpeed)
+
+    if linearSpeed == 0 and angularSpeed == 0:
+      #if we're not moving anymore, call voice-control service
+      rospy.wait_for_service('voice-control')
+      srv = rospy.ServiceProxy('voice-control', voice_control)
+      try:
+        success = voice_control_server()
+        print 'Called voice-control, success: ' + str(success)
+      except:
+        print 'Voice control server failed to respond, call Rich and insult him'
+
+    distance -= 0.1
+    rate.sleep()   
+
   return 0
 
 def moveIt():
@@ -54,8 +90,6 @@ def moveIt():
   minAngle = 0.09
   maxLinearSpeed = 0.3
   maxAngularSpeed = 0.52
-
-  pub = rospy.Publisher('cmd_vel', Twist)
   
   rate = rospy.Rate(frequency)
 
