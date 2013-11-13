@@ -10,6 +10,13 @@ import sys, traceback
 
 from voice_control.srv import *
 
+frequency = 20
+timeToUser = 6
+minDistance = 0.4
+minAngle = 0.09
+maxLinearSpeed = 0.3
+maxAngularSpeed = 0.52
+
 def publish(linearSpeed, angularSpeed):
 
   pub = rospy.Publisher('cmd_vel', Twist)
@@ -28,6 +35,9 @@ def publish(linearSpeed, angularSpeed):
 
 def computeSpeed(distance, angle):
   #code from tutorials, don't touch that or everything dies
+  linearSpeed = 0
+  angularSpeed = 0
+
   if (abs(angle) > minAngle):
     angularSpeed = abs(angle*frequency / timeToUser);
     angularSpeed = min(angularSpeed, maxAngularSpeed)
@@ -54,9 +64,10 @@ def pretendMoveIt():
   
   rate = rospy.Rate(frequency)
 
+  distance = 2
+  angle = 0
+
   while not rospy.is_shutdown():
-    distance = 2
-    angle = 0
 
     linearSpeed, angularSpeed = computeSpeed(distance, angle)
 
@@ -68,6 +79,7 @@ def pretendMoveIt():
 
     if linearSpeed == 0 and angularSpeed == 0:
       #if we're not moving anymore, call voice-control service
+      print 'Contacting voice-control'
       rospy.wait_for_service('voice-control')
       srv = rospy.ServiceProxy('voice-control', voice_control)
       try:
@@ -83,13 +95,6 @@ def pretendMoveIt():
 
 def moveIt():
   listener = tf.TransformListener()
-
-  frequency = 20
-  timeToUser = 6
-  minDistance = 0.4
-  minAngle = 0.09
-  maxLinearSpeed = 0.3
-  maxAngularSpeed = 0.52
   
   rate = rospy.Rate(frequency)
 
@@ -126,7 +131,7 @@ def moveIt():
     distance = sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2))
     angle = atan2(tOutput.point.y, tOutput.point.x)
 
-    linearSpeed, angularSpeed = computeSpeed(distance, angle)  
+    linearSpeed, angularSpeed = computeSpeed(distance, angle)
 
     print 'Distance: ' + str(distance)
     print 'Angle: ' + str(angle)
