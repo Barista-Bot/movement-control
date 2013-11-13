@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="movement" type="movement.py" name ="movement" required="true" output="screen">
+    <remap from="cmd_vel" to="js_cmd_vel" />
+    <param name="noxtion" value="1" />
+  </node>
+  <node pkg="movement" type="transform.py" name="movementtransform" required="true" output="screen" />
+
+</launch>
