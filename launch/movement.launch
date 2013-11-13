@@ -1,24 +1,20 @@
 <launch>
 
   <!-- TRACKING INFO FROM THE XTION -->
-  <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" required="true" ouput="screen" />
+  <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" required="true" output="screen" />
 
   <!-- p2os driver (moving the P3-AT) -->
-  <!-- <node pkg="p2os_driver" type="p2os_driver" name="p2os" required="true" output="screen">
+  <!--<node pkg="p2os_driver" type="p2os_driver" name="p2os" required="true" output="screen">
     <rosparam>
       port : "/dev/ttyUSB0"
       pulse : 1
       use_sonar : true
     </rosparam>
+  </node>-->
+
+  <node pkg="movement" type="movement.py" name ="movement" required="true" output="screen">
+    <remap from="cmd_vel" to="js_cmd_vel" />
   </node>
-  -->
-
-  <node pkg="movement" type="movement" name ="movement" required="true" output="screen" />
-  
-  <node pkg="movement" type="transform" name ="transform" required="true" output="screen" />
-
-  <!--<node pkg="movement" type="movement_server.py" name="movement_server" required="true" output="screen" />
-
-  <node pkg="movement" type="movement_client.py" name="movement_client" required="true" output="screen" />-->
+  <node pkg="movement" type="transform.py" name="movementtransform" required="true" output="screen" />
 
 </launch>
