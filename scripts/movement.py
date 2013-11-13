@@ -8,9 +8,15 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Twist, PointStamped
 import sys, traceback
 
-def moveIt():
-  rospy.init_node('movement')
+from voice_control.srv import *
 
+def pretendMoveIt():
+  print 'wow so lie'
+  print 'such pretend'
+
+  return 0
+
+def moveIt():
   listener = tf.TransformListener()
 
   frequency = 20
@@ -42,7 +48,6 @@ def moveIt():
       traceback.print_exc(file=sys.stdout)
       continue
 
-    print 'OKAY'
     tInput = PointStamped()
     tOutput = PointStamped()
 
@@ -76,6 +81,7 @@ def moveIt():
     msg.linear.x = linearSpeed
     msg.angular.z = angularSpeed
 
+    pub.publish(msg)
 
     print 'Distance: ' + str(distance)
     print 'Angle: ' + str(angle)
@@ -83,9 +89,25 @@ def moveIt():
     print 'Angular Speed ' + str(angularSpeed)
     print '------------------------'
 
+    if linearSpeed == 0 and angularSpeed == 0:
+      #if we're not moving anymore, call voice-control service
+      rospy.wait_for_service('voice-control')
+      srv = rospy.ServiceProxy('voice-control', voice_control)
+      try:
+        success = voice_control_server()
+        print 'Called voice-control, success: ' + str(success)
+      except:
+        print 'Voice control server failed to respond, call Rich and insult him'
+
     rate.sleep()
 
   return 0
 
 if __name__ == '__main__':
-  moveIt()
+  rospy.init_node('movement')
+
+  value = rospy.get_param('~noxtion')
+  if value:
+    pretendMoveIt()
+  else:
+    moveIt()
