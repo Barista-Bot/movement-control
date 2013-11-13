@@ -141,8 +141,8 @@ def moveIt():
 
     if linearSpeed == 0 and angularSpeed == 0:
       #if we're not moving anymore, call voice-control service
-      rospy.wait_for_service('voice-control')
-      srv = rospy.ServiceProxy('voice-control', voice_control)
+      rospy.wait_for_service('voice_control')
+      srv = rospy.ServiceProxy('voice_control', voice_control)
       try:
         success = voice_control_server()
         print 'Called voice-control, success: ' + str(success)
