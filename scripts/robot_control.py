@@ -10,13 +10,6 @@ import sys, traceback
 
 from voice_control.srv import *
 
-frequency = 20
-timeToUser = 6
-minDistance = 0.4
-minAngle = 0.09
-maxLinearSpeed = 0.3
-maxAngularSpeed = 0.52
-
 class robot():
     """docstring for robot"""
     def __init__(self, frequency=20, timeToUser=6, minDistance=0.4, 
@@ -133,7 +126,7 @@ class robot():
 
             rate.sleep()
 
-      return 0
+        return 0
 
     def pretendMoveIt():
         print 'wow so lie'
@@ -168,7 +161,7 @@ class robot():
             distance -= 0.1
             rate.sleep()   
 
-      return 0
+        return 0
 
 
 

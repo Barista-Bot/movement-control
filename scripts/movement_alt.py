@@ -1,4 +1,4 @@
-from robot_control import robot
+import robot_control
 
 frequency = 20
 timeToUser = 6
@@ -15,6 +15,6 @@ if __name__ == "__main__":
 
     value = rospy.get_param('~noxtion')
     if value:
-        robot.pretendMoveIt()
+        p3at.pretendMoveIt()
     else:
-        robot.moveIt()
+        p3at.moveIt()
