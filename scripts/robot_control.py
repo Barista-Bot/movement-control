@@ -15,7 +15,6 @@ class robot():
     def __init__(self, frequency=20, timeToUser=6, minDistance=0.4, 
         minAngle=0.09, maxLinearSpeed=0.3, maxAngularSpeed=0.52):
 
-        super(robot, self).__init__()
         self.frequency = frequency
         self.timeToUser = timeToUser
         self.minDistance = minDistance
@@ -79,8 +78,8 @@ class robot():
 
         while not rospy.is_shutdown():
             
-            linearSpeed = 0.0
-            angularSpeed = 0.0
+            self.linearSpeed = 0.0
+            self.angularSpeed = 0.0
 
             now = rospy.Time(0)
              
@@ -106,13 +105,13 @@ class robot():
             distance = sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2))
             angle = atan2(tOutput.point.y, tOutput.point.x)
 
-            linearSpeed, angularSpeed = computeSpeed(distance, angle)
+            self.computeSpeed(distance, angle)
 
             print 'Distance: ' + str(distance)
             print 'Angle: ' + str(angle)
             print '------------------------'
             
-            publish(linearSpeed, angularSpeed)
+            self.publish(linearSpeed, angularSpeed)
 
             if linearSpeed == 0 and angularSpeed == 0:
               #if we're not moving anymore, call voice-control service
@@ -128,24 +127,27 @@ class robot():
 
         return 0
 
-    def pretendMoveIt():
+    def pretendMoveIt(self):
         print 'wow so lie'
         print 'such pretend'
 
       
-        rate = rospy.Rate(frequency)
+        rate = rospy.Rate(self.frequency)
 
         distance = 2
         angle = 0
 
         while not rospy.is_shutdown():
-            self.linearSpeed, self.angularSpeed = computeSpeed(distance, angle)
+            self.linearSpeed = 0
+            self.angularSpeed = 0
+            
+            self.computeSpeed(distance, angle)
 
             print 'Distance: ' + str(distance)
             print 'Angle: ' + str(angle)
             print '------------------------'
         
-            publish(self.linearSpeed, self.angularSpeed)
+            self.publish(self.linearSpeed, self.angularSpeed)
 
             if self.linearSpeed == 0 and self.angularSpeed == 0:
                 #if we're not moving anymore, call voice-control service
@@ -153,7 +155,7 @@ class robot():
                 rospy.wait_for_service('voice_control')
                 srv = rospy.ServiceProxy('voice_control', voice_control)
                 try:
-                    success = voice_control_server()
+                    success = srv()
                     print 'Called voice-control, success: ' + str(success)
                 except:
                     print 'Voice control server failed to respond, call Rich and insult him'
