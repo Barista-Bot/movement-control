@@ -159,6 +159,7 @@ class robot():
                     print 'Called voice-control, success: ' + str(success)
                 except:
                     print 'Voice control server failed to respond, call Rich and insult him'
+                    rospy.sleep(10)
 
             distance -= 0.1
             rate.sleep()   
