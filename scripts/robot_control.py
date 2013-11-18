@@ -27,6 +27,7 @@ class robot():
 
         rospy.init_node('movement')
 
+        self.listener = tf.TransformListener()
         self.HasCamera = rospy.get_param('~noxtion')
 
 
@@ -67,8 +68,45 @@ class robot():
     def orientRobot(self):
         return
 
+    def pickPersonToFollow(self):
+        #look for transforms for multiple people
+        destFrame = 'base_link'
+        timeout = 0.1
+        #list of all the distances
+        distance = []
+        for i in range (1, 2):
+            originFrame = 'torso_' + str(i)
+            print originFrame
+            now = rospy.Time(0)
+            try:
+                self.listener.waitForTransform(destFrame, originFrame, now, rospy.Duration(timeout))
+                (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
+            except:
+                traceback.print_exc(file=sys.stdout)
+                continue
+
+            tInput = PointStamped()
+            tOutput = PointStamped()
+
+            tInput.header.frame_id = originFrame
+            tInput.header.stamp = rospy.Time(0)
+
+            #someone please refactor that
+            #<insert random italian words here>
+            tInput.point.x = 0.0
+            tInput.point.y = 0.0
+            tInput.point.z = 0.0
+
+            tOutput = self.listener.transformPoint(destFrame, tInput)
+
+            #compute distance and add it to the list
+            distance.append(sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2)))
+
+        #return the correct torso_ index (smallest distance)
+        return distance.index(min(distance)) + 1
+
+
     def moveIt(self):
-        listener = tf.TransformListener()
       
         rate = rospy.Rate(frequency)
 
@@ -77,15 +115,19 @@ class robot():
         destFrame = 'base_link'
 
         while not rospy.is_shutdown():
-            
+          #t0 = rospy.Time(0)
+          #while rospy.Time(0) - t0 < rospy.Duration(5):    
             self.linearSpeed = 0.0
             self.angularSpeed = 0.0
+
+            #id = pickPersonToFollow()
+            #originFrame = 'torso_' + str(id)
 
             now = rospy.Time(0)
              
             try:
-              listener.waitForTransform(destFrame, originFrame, now,  rospy.Duration(timeout))
-              (trans, rot) = listener.lookupTransform(destFrame, originFrame, now)
+              self.listener.waitForTransform(destFrame, originFrame, now,  rospy.Duration(timeout))
+              (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
             except:
               traceback.print_exc(file=sys.stdout)
               continue
@@ -100,7 +142,7 @@ class robot():
             tInput.point.y = 0.0
             tInput.point.z = 0.0
 
-            tOutput = listener.transformPoint(destFrame, tInput)
+            tOutput = self.listener.transformPoint(destFrame, tInput)
 
             distance = sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2))
             angle = atan2(tOutput.point.y, tOutput.point.x)
