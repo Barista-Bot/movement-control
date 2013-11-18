@@ -41,9 +41,9 @@ class robot():
 
         pub.publish(msg)
 
-        print 'Linear Speed ' + str(linearSpeed)
-        print 'Angular Speed ' + str(angularSpeed)
-        print '------------------------'
+        rospy.loginfo('Linear Speed ' + str(linearSpeed))
+        rospy.loginfo('Angular Speed ' + str(angularSpeed))
+        rospy.loginfo('------------------------')
 
         return 0
 
@@ -76,7 +76,7 @@ class robot():
         distance = []
         for i in range (1, 2):
             originFrame = 'torso_' + str(i)
-            print originFrame
+            rospy.loginfo(originFrame)
             now = rospy.Time(0)
             try:
                 self.listener.waitForTransform(destFrame, originFrame, now, rospy.Duration(timeout))
@@ -149,29 +149,29 @@ class robot():
 
             self.computeSpeed(distance, angle)
 
-            print 'Distance: ' + str(distance)
-            print 'Angle: ' + str(angle)
-            print '------------------------'
+            rospy.loginfo('Distance: ' + str(distance))
+            rospy.loginfo('Angle: ' + str(angle))
+            rospy.loginfo('------------------------')
             
             self.publish(linearSpeed, angularSpeed)
 
             if linearSpeed == 0 and angularSpeed == 0:
-              #if we're not moving anymore, call voice-control service
-              rospy.wait_for_service('voice_control')
-              srv = rospy.ServiceProxy('voice_control', voice_control)
-              try:
-                success = voice_control_server()
-                print 'Called voice-control, success: ' + str(success)
-              except:
-                print 'Voice control server failed to respond, call Rich and insult him'
+                #if we're not moving anymore, call voice-control service
+                rospy.wait_for_service('voice_control')
+                srv = rospy.ServiceProxy('voice_control', voice_control)
+                try:
+                    success = voice_control_server()
+                    rospy.loginfo('Called voice-control, success: ' + str(success))
+                except:
+                    rospy.logerr('Voice control server failed to respond, call Rich and insult him')
 
             rate.sleep()
 
         return 0
 
     def pretendMoveIt(self):
-        print 'wow so lie'
-        print 'such pretend'
+        rospy.loginfo('wow so lie')
+        rospy.loginfo('such pretend')
 
       
         rate = rospy.Rate(self.frequency)
@@ -185,22 +185,22 @@ class robot():
             
             self.computeSpeed(distance, angle)
 
-            print 'Distance: ' + str(distance)
-            print 'Angle: ' + str(angle)
-            print '------------------------'
+            rospy.loginfo('Distance: ' + str(distance))
+            rospy.loginfo('Angle: ' + str(angle))
+            rospy.loginfo('------------------------')
         
             self.publish(self.linearSpeed, self.angularSpeed)
 
             if self.linearSpeed == 0 and self.angularSpeed == 0:
                 #if we're not moving anymore, call voice-control service
-                print 'Contacting voice-control'
+                rospy.loginfo('Contacting voice-control')
                 rospy.wait_for_service('voice_control')
                 srv = rospy.ServiceProxy('voice_control', voice_control)
                 try:
                     success = srv()
-                    print 'Called voice-control, success: ' + str(success)
+                    rospy.loginfo('Called voice-control, success: ' + str(success))
                 except:
-                    print 'Voice control server failed to respond, call Rich and insult him'
+                    rospy.logerr('Voice control server failed to respond, call Rich and insult him')
                     rospy.sleep(10)
 
             distance -= 0.1
