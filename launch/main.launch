@@ -1,6 +1,8 @@
 <launch>
   <node pkg="movement" type="movement_alt.py" name ="movement" required="true" output="screen">
     <remap from="cmd_vel" to="js_cmd_vel" />
+    <rosparam param="noxtion">0</rosparam>
   </node>
+  
   <node pkg="movement" type="transform.py" name="movementtransform" required="true" output="screen" />
 </launch>
