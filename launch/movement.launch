@@ -19,6 +19,6 @@
 
   <node pkg="voice_control" type="voice_control_server.py" name="voice_control" required="true" output="screen" />
 
-  <node pkg="user_identification" type="user_identification_server.py" name="user_identification_server" required="true" output="screen" />
+  <!--<node pkg="user_identification" type="user_identification_server.py" name="user_identification_server" required="true" output="screen" />-->
 
 </launch>

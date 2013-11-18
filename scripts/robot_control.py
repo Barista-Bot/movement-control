@@ -12,7 +12,7 @@ from voice_control.srv import *
 
 class robot():
     """docstring for robot"""
-    def __init__(self, frequency=20, timeToUser=6, minDistance=0.4, 
+    def __init__(self, frequency=20, timeToUser=6, minDistance=1.0, 
         minAngle=0.09, maxLinearSpeed=0.3, maxAngularSpeed=0.52):
 
         self.frequency = frequency
@@ -50,7 +50,7 @@ class robot():
     def computeSpeed(self, distance, angle):
         if (abs(angle) > self.minAngle):
             self.angularSpeed = abs(angle*self.frequency/self.timeToUser)
-            self.angularSpeed = min(angularSpeed, self.maxAngularSpeed)
+            self.angularSpeed = min(self.angularSpeed, self.maxAngularSpeed)
 
         if (angle < 0):
             self.angularSpeed = -self.angularSpeed
@@ -108,7 +108,7 @@ class robot():
 
     def moveIt(self):
       
-        rate = rospy.Rate(frequency)
+        rate = rospy.Rate(self.frequency)
 
         timeout = 0.1
         originFrame = 'torso_1'
@@ -153,14 +153,14 @@ class robot():
             rospy.loginfo('Angle: ' + str(angle))
             rospy.loginfo('------------------------')
             
-            self.publish(linearSpeed, angularSpeed)
+            self.publish(self.linearSpeed, self.angularSpeed)
 
-            if linearSpeed == 0 and angularSpeed == 0:
+            if self.linearSpeed == 0 and self.angularSpeed == 0:
                 #if we're not moving anymore, call voice-control service
                 rospy.wait_for_service('voice_control')
                 srv = rospy.ServiceProxy('voice_control', voice_control)
                 try:
-                    success = voice_control_server()
+                    success = srv()
                     rospy.loginfo('Called voice-control, success: ' + str(success))
                 except:
                     rospy.logerr('Voice control server failed to respond, call Rich and insult him')
