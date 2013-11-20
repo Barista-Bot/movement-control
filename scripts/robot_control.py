@@ -129,7 +129,7 @@ class robot():
               self.listener.waitForTransform(destFrame, originFrame, now,  rospy.Duration(timeout))
               (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
             except:
-              traceback.print_exc(file=sys.stdout)
+              #traceback.print_exc(file=sys.stdout)
               continue
 
             tInput = PointStamped()
