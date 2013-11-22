@@ -13,6 +13,11 @@
   </node>-->
 
   <node pkg="movement" type="movement_alt.py" name ="movement" required="true" output="screen">
+    <param name="noxtion" value="0" />
+    <remap from="cmd_vel" to="xt_cmd_vel" />
+  </node>
+  <node pkg="movement" type="joystick_node.py" name="joystick_node" required="true" output="screen" />
+  <node pkg="movement" type="joystick_to_cmd_vel.py" name="joystick_to_cmd_vel" required="true"  output="screen">
     <remap from="cmd_vel" to="js_cmd_vel" />
   </node>
   <node pkg="movement" type="transform.py" name="movementtransform" required="true" output="screen" />
