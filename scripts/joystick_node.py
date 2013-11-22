@@ -4,11 +4,11 @@
 import rospy
 
 # import the joystick class 
-from common import joystick
+import joystick
 
 # ============= this section is new ===================
 # import the JoyAxis message
-from exercise1.msg import JoyAxis
+from movement.msg import JoyAxis
 # ============= this section is new ===================
 
 # this is our main loop function

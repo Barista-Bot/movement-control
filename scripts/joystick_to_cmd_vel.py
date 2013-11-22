@@ -4,7 +4,7 @@
 import rospy
 
 # Load JoyAxis from ros_intro
-from exercise1.msg import JoyAxis
+from movement.msg import JoyAxis
 
 # =========================================================
 # Now, your task is to load the Twist msg from geometry_msgs
