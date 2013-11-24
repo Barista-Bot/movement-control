@@ -1,0 +1,9 @@
+<!-- Starts everything. Run this for testing with one computer handling xtion, joystick and all the nodes -->
+<launch>  
+    
+    <include file="$(find movement)/launch/p3at.launch" />
+    <include file="$(find movement)/launch/xtion.launch" />
+    <include file="$(find movement)/launch/joystick.launch" />
+    <include file="$(find movement)/launch/filter.launch" />
+
+</launch>

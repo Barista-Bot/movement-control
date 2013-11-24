@@ -4,5 +4,4 @@
         <remap from="cmd_vel" to="js_cmd_vel" />
     </node>
 
-    <node pkg="movement" type="movement_filter.py" name="movement_filter" required="true" output="screen" />
 </launch>

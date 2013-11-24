@@ -1,0 +1,4 @@
+<!-- Starts the movement filter/priority system -->
+<launch>
+    <node pkg="movement" type="movement_filter.py" name="movement_filter" required="true" output="screen" />
+</launch>

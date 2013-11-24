@@ -2,7 +2,7 @@
 <launch>
 
     <!-- TRACKING INFO FROM THE XTION -->
-     <!--   <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" required="true" output="screen" /> -->
+    <!--   <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" required="true" output="screen" /> -->
 
         <node pkg="movement" type="movement_alt.py" name ="movement" required="true" output="screen">
             <param name="noxtion" value="0" />

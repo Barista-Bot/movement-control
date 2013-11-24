@@ -1,8 +1,9 @@
 <!-- Main launch file. Include this to start our node -->
+<!-- NOTE: the joystick nodes are not included. They are meant to be started on another machine (use runall.launch in order to use everything no a single computer) -->
 <launch>  
     
     <include file="$(find movement)/launch/p3at.launch" />
     <include file="$(find movement)/launch/xtion.launch" />
-    <include file="$(find movement)/launch/joystick.launch" />
+    <include file="$(find movement)/launch/filter.launch" />
 
 </launch>
