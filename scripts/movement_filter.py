@@ -30,14 +30,15 @@ class MovementFilter():
         
         if self.cmdVel.linear.x == 0 and self.cmdVel.angular.z == 0:
             self.cmd_pub.publish(self.cmdVel)
-        elif self.cmdVel.linear.x < 0 and not self.stopMovement[1]:
+        elif (self.cmdVel.linear.x < 0 or self.cmdVel.angular.z > 0) and not self.stopMovement[1]:
             rospy.loginfo('Publishing backward move command')
             self.cmd_pub.publish(self.cmdVel)
 
-        elif (self.cmdVel.linear.x > 0 or abs(self.cmdVel.angular.z) > 0) and not self.stopMovement[0]:
+        elif (self.cmdVel.linear.x > 0 or self.cmdVel.angular.z < 0) and not self.stopMovement[0]:
             rospy.loginfo('Publishing forward move command')
             self.cmd_pub.publish(self.cmdVel)
         else:
+            self.cmd_pub.publish(Twist())
             rospy.logwarn("Movement is not allowed, staying in position")
     
     def joystickCallback(self, data):

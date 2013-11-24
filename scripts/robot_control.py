@@ -207,7 +207,3 @@ class robot():
             rate.sleep()   
 
         return 0
-
-
-
-
