@@ -1,6 +1,8 @@
 <launch>
- <node pkg="movement" type="joystick_node.py" name="joystick_node" required="true"/>
- <node pkg="movement" type="joystick_to_cmd_vel.py" name="joystick_to_cmd_vel" required="true"  output="screen">
-    <remap from="cmd_vel" to="js_cmd_vel" />
-  </node>
+    <node pkg="movement" type="joystick_node.py" name="joystick_node" required="true"/>
+    <node pkg="movement" type="joystick_to_cmd_vel.py" name="joystick_to_cmd_vel" required="true"  output="screen">
+        <remap from="cmd_vel" to="js_cmd_vel" />
+    </node>
+
+    <node pkg="movement" type=movement_filter.py" name="movement_filter" required="true" output="screen" />
 </launch>

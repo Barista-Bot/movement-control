@@ -16,8 +16,8 @@
     <param name="noxtion" value="0" />
     <remap from="cmd_vel" to="xt_cmd_vel" />
   </node>
-  <node pkg="movement" type="joystick_node.py" name="joystick_node" required="true" output="screen" />
-  
+<!--  <node pkg="movement" type="joystick_node.py" name="joystick_node" required="true" output="screen" />
+  -->
   <node pkg="movement" type="transform.py" name="movementtransform" required="true" output="screen" />
 
   <node pkg="voice_control" type="voice_control_server.py" name="voice_control" required="true" output="screen" />

@@ -21,7 +21,7 @@ class MovementFilter():
 
     def publishCmdVel(self):
         if not self.stopAllMovement:
-            if not (self.jsCmdVel.linear.x == 0 and self.jsCmdVel.angular.z == 0):
+            if abs(self.jsCmdVel.linear.x)>0 or abs(self.jsCmdVel.angular.z)>0:
                 self.cmdVel = self.jsCmdVel
             else:
                 self.cmdVel = self.xtCmdVel
@@ -31,6 +31,7 @@ class MovementFilter():
     
     def joystickCallback(self, data):
         self.jsCmdVel = data
+        rospy.loginfo('JOYSTICK ' + str(self.jsCmdVel))
 
     def xtionCallback(self, data):
         self.xtCmdVel = data
