@@ -1,0 +1,14 @@
+<!-- Start all the nodes related to the xtion movement -->
+<launch>
+
+    <!-- TRACKING INFO FROM THE XTION -->
+     <!--   <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" required="true" output="screen" /> -->
+
+        <node pkg="movement" type="movement_alt.py" name ="movement" required="true" output="screen">
+            <param name="noxtion" value="0" />
+            <remap from="cmd_vel" to="xt_cmd_vel" />
+        </node>
+
+        <node pkg="movement" type="transform.py" name="movementtransform" required="true" output="screen" />
+
+</launch>
