@@ -10,3 +10,9 @@ Launch files:
 
 
 * xtion.launch, filter.launch, p3at.launch - includes, do not run these unless you know what you are doing
+
+Important:
+----------
+If there is an error with ros:time when running this node, you will need to:
+    git clone https://github.com/ros/geometry_experimental.git
+into your catkin workspace (hopefully this will be fixed in ros-hydro soon)
