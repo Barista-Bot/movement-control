@@ -1,0 +1,8 @@
+<!-- This starts the robot and makes it follow joystick commands. Run this on its own to move the robot around  -->
+<launch>
+    
+    <include file="$(find movement)/launch/p3at.launch" />
+    <include file="$(find movement)/launch/filter.launch" />
+    <include file="$(find movement)/launch/joystick.launch" />
+
+</launch>
