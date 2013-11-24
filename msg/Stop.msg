@@ -1,0 +1,2 @@
+bool stopFront
+bool stopBack
