@@ -46,7 +46,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate messages in the 'msg' folder
 add_message_files(
-   FILES JoyAxis.msg
+   FILES JoyAxis.msg Stop.msg
 #   Message2.msg
 )
 
