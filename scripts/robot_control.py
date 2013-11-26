@@ -12,7 +12,7 @@ from voice_control.srv import *
 
 class robot():
     """docstring for robot"""
-    def __init__(self, frequency=20, timeToUser=6, minDistance=1.0, 
+    def __init__(self, frequency=20, timeToUser=6, minDistance=0.5, 
         minAngle=0.09, maxLinearSpeed=0.3, maxAngularSpeed=0.52):
 
         self.frequency = frequency
@@ -74,7 +74,7 @@ class robot():
         timeout = 0.1
         #list of all the distances
         distance = []
-        for i in range (1, 2):
+        for i in range (1, 5):
             originFrame = 'torso_' + str(i)
             rospy.loginfo(originFrame)
             now = rospy.Time(0)
@@ -82,7 +82,7 @@ class robot():
                 self.listener.waitForTransform(destFrame, originFrame, now, rospy.Duration(timeout))
                 (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
             except:
-                traceback.print_exc(file=sys.stdout)
+                #traceback.print_exc(file=sys.stdout)
                 continue
 
             tInput = PointStamped()
@@ -103,7 +103,10 @@ class robot():
             distance.append(sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2)))
 
         #return the correct torso_ index (smallest distance)
-        return distance.index(min(distance)) + 1
+        try:
+            return distance.index(min(distance)) + 1
+        except:
+            return 1
 
 
     def moveIt(self):
@@ -115,57 +118,58 @@ class robot():
         destFrame = 'base_link'
 
         while not rospy.is_shutdown():
-          #t0 = rospy.Time(0)
-          #while rospy.Time(0) - t0 < rospy.Duration(5):    
-            self.linearSpeed = 0.0
-            self.angularSpeed = 0.0
+            id = self.pickPersonToFollow()
+            originFrame = 'torso_' + str(id)
 
-            #id = pickPersonToFollow()
-            #originFrame = 'torso_' + str(id)
+            t0 = rospy.Time(0)
+            while rospy.Time(0) - t0 < rospy.Duration(3):    
+                self.linearSpeed = 0.0
+                self.angularSpeed = 0.0
 
-            now = rospy.Time(0)
-             
-            try:
-              self.listener.waitForTransform(destFrame, originFrame, now,  rospy.Duration(timeout))
-              (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
-            except:
-              #traceback.print_exc(file=sys.stdout)
-              continue
-
-            tInput = PointStamped()
-            tOutput = PointStamped()
-
-            tInput.header.frame_id = originFrame
-            tInput.header.stamp = rospy.Time(0)
-
-            tInput.point.x = 0.0
-            tInput.point.y = 0.0
-            tInput.point.z = 0.0
-
-            tOutput = self.listener.transformPoint(destFrame, tInput)
-
-            distance = sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2))
-            angle = atan2(tOutput.point.y, tOutput.point.x)
-
-            self.computeSpeed(distance, angle)
-
-            rospy.loginfo('Distance: ' + str(distance))
-            rospy.loginfo('Angle: ' + str(angle))
-            rospy.loginfo('------------------------')
-            
-            self.publish(self.linearSpeed, self.angularSpeed)
-
-            if self.linearSpeed == 0 and self.angularSpeed == 0:
-                #if we're not moving anymore, call voice-control service
-                rospy.wait_for_service('voice_control')
-                srv = rospy.ServiceProxy('voice_control', voice_control)
+                rospy.loginfo(originFrame)
+                now = rospy.Time(0)
+                 
                 try:
-                    success = srv()
-                    rospy.loginfo('Called voice-control, success: ' + str(success))
+                  self.listener.waitForTransform(destFrame, originFrame, now,  rospy.Duration(timeout))
+                  (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
                 except:
-                    rospy.logerr('Voice control server failed to respond, call Rich and insult him')
+                  #traceback.print_exc(file=sys.stdout)
+                  continue
 
-            rate.sleep()
+                tInput = PointStamped()
+                tOutput = PointStamped()
+
+                tInput.header.frame_id = originFrame
+                tInput.header.stamp = rospy.Time(0)
+
+                tInput.point.x = 0.0
+                tInput.point.y = 0.0
+                tInput.point.z = 0.0
+
+                tOutput = self.listener.transformPoint(destFrame, tInput)
+
+                distance = sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2))
+                angle = atan2(tOutput.point.y, tOutput.point.x)
+
+                self.computeSpeed(distance, angle)
+
+                rospy.loginfo('Distance: ' + str(distance))
+                rospy.loginfo('Angle: ' + str(angle))
+                rospy.loginfo('------------------------')
+                
+                self.publish(self.linearSpeed, self.angularSpeed)
+
+                if self.linearSpeed == 0 and self.angularSpeed == 0:
+                    #if we're not moving anymore, call voice-control service
+                    rospy.wait_for_service('voice_control')
+                    srv = rospy.ServiceProxy('voice_control', voice_control)
+                    try:
+                        success = srv()
+                        rospy.loginfo('Called voice-control, success: ' + str(success))
+                    except:
+                        rospy.logerr('Voice control server failed to respond, call Rich and insult him')
+
+                rate.sleep()
 
         return 0
 
