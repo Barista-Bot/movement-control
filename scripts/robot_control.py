@@ -96,7 +96,7 @@ class Robot:
         distance = []
         for i in range (1, 5):
             originFrame = 'torso_' + str(i)
-            rospy.loginfo(originFrame)
+            #rospy.loginfo(originFrame)
             now = rospy.Time.now()
             try:
                 self.listener.waitForTransform(destFrame, originFrame, now, rospy.Duration(timeout))
@@ -143,7 +143,7 @@ class Robot:
                 rate.sleep()
 
             id = self.pickPersonToFollow()
-            originFrame = 'torso_' + str(id)
+            #originFrame = 'torso_' + str(id)
 
             t0 = rospy.Time().now()
             while rospy.Time.now() - t0 < rospy.Duration(3, 0):
