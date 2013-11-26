@@ -10,11 +10,12 @@ import sys, traceback
 
 from voice_control.srv import *
 
-class robot():
+class Robot:
     """docstring for robot"""
     def __init__(self, frequency=20, timeToUser=6, minDistance=0.5, 
         minAngle=0.09, maxLinearSpeed=0.3, maxAngularSpeed=0.52):
 
+        #settings
         self.frequency = frequency
         self.timeToUser = timeToUser
         self.minDistance = minDistance
@@ -25,12 +26,31 @@ class robot():
         self.linearSpeed = 0.0
         self.angularSpeed = 0.0
 
-        rospy.init_node('movement')
+        #control variables
+        self.pause = 0
+        self.restart = 0
+
+        rospy.Subscriber('~commands', String, self.commandCallback)
 
         self.listener = tf.TransformListener()
-        self.HasCamera = rospy.get_param('~noxtion')
 
-
+    def commandCallback(self, data):
+        if data.data == 'pause':
+            rospy.loginfo('PAUSING')
+            self.pause = 1
+                
+        elif data.data == 'resume':
+            rospy.loginfo('RESUMING')
+            self.pause = 0
+        elif data.data == 'restart':
+            rospy.loginfo('RESTARTING')
+            self.pause = 0
+            self.restart = 1
+        elif data.data == 'stop':
+            rospy.signal_shutdown('STOP received, exiting immediately')
+        else:
+            rospy.loginfo('Ignoring invalid ' + data.data + 'command')
+            pass
 
     def publish(self, linearSpeed, angularSpeed):
         pub = rospy.Publisher('cmd_vel', Twist)
@@ -45,7 +65,7 @@ class robot():
         rospy.loginfo('Angular Speed ' + str(angularSpeed))
         rospy.loginfo('------------------------')
 
-        return 0
+        return
 
     def computeSpeed(self, distance, angle):
         if (abs(angle) > self.minAngle):
@@ -77,7 +97,7 @@ class robot():
         for i in range (1, 5):
             originFrame = 'torso_' + str(i)
             rospy.loginfo(originFrame)
-            now = rospy.Time(0)
+            now = rospy.Time.now()
             try:
                 self.listener.waitForTransform(destFrame, originFrame, now, rospy.Duration(timeout))
                 (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
@@ -89,7 +109,7 @@ class robot():
             tOutput = PointStamped()
 
             tInput.header.frame_id = originFrame
-            tInput.header.stamp = rospy.Time(0)
+            tInput.header.stamp = rospy.Time.now()
 
             #someone please refactor that
             #<insert random italian words here>
@@ -118,29 +138,38 @@ class robot():
         destFrame = 'base_link'
 
         while not rospy.is_shutdown():
+
+            while self.pause:
+                rate.sleep()
+
             id = self.pickPersonToFollow()
             originFrame = 'torso_' + str(id)
 
-            t0 = rospy.Time(0)
-            while rospy.Time(0) - t0 < rospy.Duration(3):    
+            t0 = rospy.Time().now()
+            while rospy.Time.now() - t0 < rospy.Duration(3, 0):
+
+                while self.pause:
+                    rate.sleep()
+
                 self.linearSpeed = 0.0
                 self.angularSpeed = 0.0
 
                 rospy.loginfo(originFrame)
-                now = rospy.Time(0)
+                now = rospy.Time.now()
                  
                 try:
                   self.listener.waitForTransform(destFrame, originFrame, now,  rospy.Duration(timeout))
                   (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
                 except:
-                  #traceback.print_exc(file=sys.stdout)
-                  continue
+                    #traceback.print_exc(file=sys.stdout)
+                    rate.sleep()  
+                    continue
 
                 tInput = PointStamped()
                 tOutput = PointStamped()
 
                 tInput.header.frame_id = originFrame
-                tInput.header.stamp = rospy.Time(0)
+                tInput.header.stamp = rospy.Time.now()
 
                 tInput.point.x = 0.0
                 tInput.point.y = 0.0
@@ -169,45 +198,9 @@ class robot():
                     except:
                         rospy.logerr('Voice control server failed to respond, call Rich and insult him')
 
+                if self.restart:
+                    break
+
                 rate.sleep()
-
-        return 0
-
-    def pretendMoveIt(self):
-        rospy.loginfo('wow so lie')
-        rospy.loginfo('such pretend')
-
-      
-        rate = rospy.Rate(self.frequency)
-
-        distance = 2
-        angle = 0
-
-        while not rospy.is_shutdown():
-            self.linearSpeed = 0
-            self.angularSpeed = 0
-            
-            self.computeSpeed(distance, angle)
-
-            rospy.loginfo('Distance: ' + str(distance))
-            rospy.loginfo('Angle: ' + str(angle))
-            rospy.loginfo('------------------------')
-        
-            self.publish(self.linearSpeed, self.angularSpeed)
-
-            if self.linearSpeed == 0 and self.angularSpeed == 0:
-                #if we're not moving anymore, call voice-control service
-                rospy.loginfo('Contacting voice-control')
-                rospy.wait_for_service('voice_control')
-                srv = rospy.ServiceProxy('voice_control', voice_control)
-                try:
-                    success = srv()
-                    rospy.loginfo('Called voice-control, success: ' + str(success))
-                except:
-                    rospy.logerr('Voice control server failed to respond, call Rich and insult him')
-                    rospy.sleep(10)
-
-            distance -= 0.1
-            rate.sleep()   
 
         return 0

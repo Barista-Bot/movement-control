@@ -40,6 +40,13 @@ class MovementFilter():
         else:
             self.cmd_pub.publish(Twist())
             rospy.logwarn("Movement is not allowed, staying in position")
+
+        self.cmdVel.linear.x = 0
+        self.cmdVel.angular.z = 0
+        self.jsCmdVel.linear.x = 0
+        self.jsCmdVel.angular.z = 0
+        self.xtCmdVel.linear.x = 0
+        self.xtCmdVel.angular.z = 0
     
     def joystickCallback(self, data):
         self.jsCmdVel = data
