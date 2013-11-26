@@ -60,8 +60,8 @@ class JoystickToCmdVelConverter:
         self.pub.publish(cmd)
 
         # log the publish
-        rospy.loginfo("I just published: " + str(cmd.linear.x) + ", " +
-            str(cmd.linear.y) + ", " + str(cmd.angular.z))
+        #rospy.loginfo("I just published: " + str(cmd.linear.x) + ", " +
+        #    str(cmd.linear.y) + ", " + str(cmd.angular.z))
         
 
     # call this function to start the listener 
