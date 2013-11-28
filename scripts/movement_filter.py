@@ -57,7 +57,7 @@ class MovementFilter():
     def stopCallback(self, stop):
         self.stopMovement[0] = stop.stopFront
         self.stopMovement[1] = stop.stopBack
-        rospy.loginfo('Front stop bool updated to ' + str(self.stopMovement[0]) + ' - Back stop bool updated to ' + str(self.stopMovement[1]))
+        #rospy.loginfo('Front stop bool updated to ' + str(self.stopMovement[0]) + ' - Back stop bool updated to ' + str(self.stopMovement[1]))
 
     def runFilter(self, rate=10):
         rospy.loginfo("Starting movement filter")

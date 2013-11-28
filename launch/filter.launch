@@ -1,5 +1,5 @@
 <!-- Starts the movement filter/priority system -->
 <launch>
     <node pkg="movement" type="movement_filter.py" name="movement_filter" required="true" output="screen" />
-    <node pkg="movement" type="sonar_control.py" name="movement_stopper" required="true" output="screen" />
+    <node pkg="movement" type="sonar_control.py" name="movement_stopper" required="true" output="log" />
 </launch>

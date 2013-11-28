@@ -12,7 +12,7 @@ from voice_control.srv import *
 
 class Robot:
     """docstring for robot"""
-    def __init__(self, frequency=20, timeToUser=6, minDistance=0.5, 
+    def __init__(self, frequency=20, timeToUser=6, minDistance=0.7, 
         minAngle=0.09, maxLinearSpeed=0.3, maxAngularSpeed=0.52):
 
         #settings
@@ -97,7 +97,7 @@ class Robot:
         for i in range (1, 5):
             originFrame = 'torso_' + str(i)
             #rospy.loginfo(originFrame)
-            now = rospy.Time.now()
+            now = rospy.Time(0)
             try:
                 self.listener.waitForTransform(destFrame, originFrame, now, rospy.Duration(timeout))
                 (trans, rot) = self.listener.lookupTransform(destFrame, originFrame, now)
@@ -109,7 +109,7 @@ class Robot:
             tOutput = PointStamped()
 
             tInput.header.frame_id = originFrame
-            tInput.header.stamp = rospy.Time.now()
+            tInput.header.stamp = rospy.Time(0)
 
             #someone please refactor that
             #<insert random italian words here>
@@ -121,8 +121,8 @@ class Robot:
 
             #compute distance and add it to the list
             distance.append(sqrt(pow(tOutput.point.x, 2) + pow(tOutput.point.y, 2)))
-
-        #return the correct torso_ index (smallest distance)
+        
+            #return the correct torso_ index (smallest distance)
         try:
             return distance.index(min(distance)) + 1
         except:
@@ -155,7 +155,7 @@ class Robot:
                 self.angularSpeed = 0.0
 
                 #rospy.loginfo(originFrame)
-                now = rospy.Time.now()
+                now = rospy.Time(0)
                  
                 try:
                   self.listener.waitForTransform(destFrame, originFrame, now,  rospy.Duration(timeout))
@@ -169,7 +169,7 @@ class Robot:
                 tOutput = PointStamped()
 
                 tInput.header.frame_id = originFrame
-                tInput.header.stamp = rospy.Time.now()
+                tInput.header.stamp = rospy.Time(0)
 
                 tInput.point.x = 0.0
                 tInput.point.y = 0.0
