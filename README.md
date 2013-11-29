@@ -19,5 +19,6 @@ If there is an error with ros:time when running this node, you will need to:
 into your catkin workspace and run catkin_make  
 
 Every time the robot is plugged in, you will need to run:  
+
     sudo chmod 777 /dev/ttyUSB0  
 Replace 0 by whatever device you need if necessary (and set the correct one in p3at.launch)  
