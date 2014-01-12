@@ -1,5 +1,4 @@
-To run this:
-Write the python code you want, then run. Good luck :)
+In our final product, this code is mostly used to move the robot around between tests, as it cannot move much when in use. If you do use its xtion functions, this will make the robot move to a person and make a call to start the interaction when they are at an appropriate distance.
 
 Launch files:
 -------------
